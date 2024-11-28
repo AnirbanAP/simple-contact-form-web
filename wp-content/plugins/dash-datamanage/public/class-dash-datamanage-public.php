@@ -97,7 +97,48 @@ class Dash_Datamanage_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/dash-datamanage-public.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script( 'frontend_dev-js', plugin_dir_url( __FILE__ ) . 'js/frontend_dev.js', array( 'jquery' ), time(), false  );
+		
+		wp_localize_script( 'frontend_dev-js', 'frontend_ajax', 
+			array(
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'nonce' => wp_create_nonce('submit-form-nonce'),
+				'admin_url' => admin_url(),
+				'site_url'  => site_url(),
+			)
+			);
 	}
+
+
+	/**
+	 * 
+     * add code for submit frontend contatc form --- 
+	 * 
+     */
+
+	 public function frontend_form_submission_function()
+	 {
+		$nonce = $_POST['nonce'];
+        if (!wp_verify_nonce($nonce, 'submit-form-nonce')) {
+            die('Security check failed.');
+        }
+
+		$post_id = $_POST['post_id'];
+		$form_data = $_POST['form_data'];
+
+		if (!isset($post_id) || !isset($form_data)) {
+			wp_send_json_error(['message' => 'Invalid request.']);
+			return;
+		}
+
+		$stored_data = array();
+		foreach ($form_data as $field_name => $field_value) {
+			$stored_data[sanitize_text_field($field_name)] = sanitize_text_field($field_value);
+		}
+
+
+		wp_send_json_success(['message' => 'Success', 'data' => $stored_data]);
+	 }
+	
 
 }

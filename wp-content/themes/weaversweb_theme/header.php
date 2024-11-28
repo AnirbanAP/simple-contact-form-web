@@ -23,4 +23,6 @@
         </div>
     </nav>
     
+
+    <?php echo do_shortcode("[simple_custom_form id='18' name='Contact form html test 11']"); ?>
 </header>

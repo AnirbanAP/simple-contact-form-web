@@ -78,8 +78,13 @@ class Dash_Datamanage {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-
+		$this->register_shortcode();
 	}
+
+	public function register_shortcode() {
+		error_log('Shortcode registered.');
+        // add_shortcode('simple_custom_form', [$this, 'generate_form_shortcode']);
+    }
 
 	/**
 	 * Load the required dependencies for this plugin.
@@ -160,6 +165,12 @@ class Dash_Datamanage {
 
 		$this->loader->add_action( 'wp_ajax_add_form_element', $plugin_admin, 'custom_form_element_callback' ); 
     	$this->loader->add_action( 'wp_ajax_nopriv_add_form_element', $plugin_admin, 'custom_form_element_callback' );
+
+		$this->loader->add_action( 'wp_ajax_add_form_data_to_post', $plugin_admin, 'add_form_data_post_callback' ); 
+    	$this->loader->add_action( 'wp_ajax_nopriv_add_form_data_to_post', $plugin_admin, 'add_form_data_post_callback' );
+
+		$this->loader->add_action( 'wp_ajax_delete_form', $plugin_admin, 'delete_form_function' ); 
+    	$this->loader->add_action( 'wp_ajax_nopriv_delete_form', $plugin_admin, 'delete_form_function' );
 	}
 
 	/**
@@ -177,6 +188,8 @@ class Dash_Datamanage {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action('admin_menu', $plugin_public, 'plugin_admin_menu');
 
+		$this->loader->add_action( 'wp_ajax_frontend_form_submission', $plugin_public, 'frontend_form_submission_function' ); 
+    	$this->loader->add_action( 'wp_ajax_nopriv_frontend_form_submission', $plugin_public, 'frontend_form_submission_function' );
 	}
 
 	/**
