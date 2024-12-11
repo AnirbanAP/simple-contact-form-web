@@ -48,7 +48,7 @@
                   <td><?php echo $shortcode; ?></td>
                   <td><?php echo $author_name; ?></td>
                   <td><?php echo $date; ?></td>
-                  <td><a href="#" class="btn btn-primary">Edit</a> <a href="javascript:void(0);" class="btn btn-danger c_s_deleteform" data-postid="<?php echo get_the_ID(); ?>">Delete</a></td>
+                  <td><a href="<?php echo admin_url(); ?>admin.php?page=edit_form&edit_id=<?php echo get_the_ID(); ?>" class="btn btn-primary">Edit</a> <a href="javascript:void(0);" class="btn btn-danger c_s_deleteform" data-postid="<?php echo get_the_ID(); ?>">Delete</a></td>
                 </tr>
                 <?php } }?>
               </tbody>

@@ -44,10 +44,17 @@ jQuery(document).ready(function(err, data) {
 			'<option value="'+elements+'">'+elements_text+'</option>'
 		);
         jQuery('#exampleModalToggle .modal-body').find('#element_name').val(elements + '-' + Math.floor(Math.random() * 300));
-
-        
-		
 	});
+
+    // ------------------ Check form type -------------- //
+
+    var selectformType = jQuery('input[name="inlineRadioOptions"]').val();
+    jQuery('#s_c_form_type').val(selectformType);
+
+     jQuery('input[name="inlineRadioOptions"]').change(function(){
+        var selectedValue = jQuery(this).val();
+        jQuery('#s_c_form_type').val(selectedValue);
+     })
 
     // ---------- editor --------------------
 
@@ -109,6 +116,7 @@ jQuery(document).ready(function(err, data) {
                 action: 'add_form_data_to_post',
                 form_name: jQuery('#form_name').val(),
                 form_element: jQuery('#form-elements-container').html(),
+                form_type  :  jQuery('#s_c_form_type').val(),
                 froala_editor: htmldata,
                 _ajax_nonce: frontend_ajax_object.nonce,
             },

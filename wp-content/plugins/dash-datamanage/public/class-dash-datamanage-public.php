@@ -116,28 +116,29 @@ class Dash_Datamanage_Public {
 	 * 
      */
 
-	 public function frontend_form_submission_function()
+	 public function frontend_form_submission()
 	 {
 		$nonce = $_POST['nonce'];
         if (!wp_verify_nonce($nonce, 'submit-form-nonce')) {
             die('Security check failed.');
         }
-
 		$post_id = $_POST['post_id'];
-		$form_data = $_POST['form_data'];
+		// $form_data = $_POST['form_data'];
+		// $unserialize_data = unserialize($form_data);
+		// print_r($unserialize_data);
 
-		if (!isset($post_id) || !isset($form_data)) {
-			wp_send_json_error(['message' => 'Invalid request.']);
-			return;
-		}
+		// if (!isset($post_id) || !isset($form_data)) {
+		// 	wp_send_json_error(['message' => 'Invalid request.']);
+		// 	return;
+		// }
 
-		$stored_data = array();
-		foreach ($form_data as $field_name => $field_value) {
-			$stored_data[sanitize_text_field($field_name)] = sanitize_text_field($field_value);
-		}
+		// // $stored_data = array();
+		// // foreach ($form_data as $field_name => $field_value) {
+		// // 	$stored_data[sanitize_text_field($field_name)] = sanitize_text_field($field_value);
+		// // }
 
 
-		wp_send_json_success(['message' => 'Success', 'data' => $stored_data]);
+		// wp_send_json_success(['message' => 'Success', 'data' => $post_id]);
 	 }
 	
 

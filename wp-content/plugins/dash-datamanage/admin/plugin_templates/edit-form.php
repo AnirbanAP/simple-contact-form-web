@@ -1,3 +1,8 @@
+<?php 
+    $form_id = $_GET['edit_id'];
+    $form_type = get_post_meta($form_id,'c_s_form_element_type',true);
+?>
+
 <!-- Include Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/rich-text-editor-vj@3.0.6/css/froala_editor.min.css">
@@ -8,20 +13,20 @@
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/rich-text-editor-vj@3.0.6/js/froala_editor.min.js"></script> -->
 
-<section class="add-forms position-relative">
+<section class="edit-forms position-relative">
     <div class="container-fluid py-4">
         <div class="wrap">
-            <h1 class="wp-heading-inline mb-3">Add New Form</h1>
+            <h1 class="wp-heading-inline mb-3">Edit Form</h1>
             <hr class="wp-header-end mb-4">
 
-            <form action="" method="post" id="add_form">
+            <form action="" method="post" id="edit_form">
                 <div class="row">
                     <!-- Main Content Area -->
                     <div class="col-md-8">
                         <div class="form-title-sec mb-4">
-                            <input type="hidden" name="action" value="add_new_form">
+                            <input type="hidden" name="action" value="edit_c_s_form">
                             <div class="form-group">
-                                <input type="text" id="form_name" name="c_s_form_name" class="form-control" placeholder="Enter title here" required>
+                                <input type="text" id="form_name" name="c_s_form_name" class="form-control" placeholder="Enter title here" required value="<?php echo get_the_title($form_id); ?>">
                             </div>
                         </div>
 
@@ -52,11 +57,11 @@
                                     <!-- Choose Form Type Radio Buttons -->
                                     <div class="choose-form-type mt-2 mb-3">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="select_element">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="<?php echo $form_type; ?>">
                                             <label class="form-check-label" for="inlineRadio1">Element Select</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="custom_html">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="<?php echo $form_type; ?>">
                                             <label class="form-check-label" for="inlineRadio2">Custom HTML</label>
                                         </div>
                                     </div>
@@ -146,7 +151,6 @@
                                 <h5 class="mb-0">Status</h5>
                             </div>
                             <div class="card-body">
-                                <input type="hidden" name="s_c_form_type" id="s_c_form_type">
                                 <button type="submit" class="btn btn-primary w-100 submitnewform">
                                     <i class="fas fa-save"></i> Save Form
                                 </button>

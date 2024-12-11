@@ -188,8 +188,8 @@ class Dash_Datamanage {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action('admin_menu', $plugin_public, 'plugin_admin_menu');
 
-		$this->loader->add_action( 'wp_ajax_frontend_form_submission', $plugin_public, 'frontend_form_submission_function' ); 
-    	$this->loader->add_action( 'wp_ajax_nopriv_frontend_form_submission', $plugin_public, 'frontend_form_submission_function' );
+		$this->loader->add_action( 'wp_ajax_frontend_form_submission', $plugin_public, 'frontend_form_submission' ); 
+    	$this->loader->add_action( 'wp_ajax_nopriv_frontend_form_submission', $plugin_public, 'frontend_form_submission' );
 	}
 
 	/**

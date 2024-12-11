@@ -128,6 +128,7 @@ class Dash_Datamanage_Admin {
 	{
 		add_menu_page( 'Contact Form', 'Contact Form','manage_options', 'dynamic_contact_form', [$this, 'admin_page_callback'], 'dashicons-feedback' );
 		add_submenu_page( 'dynamic_contact_form', 'Add New', 'Add New','manage_options', 'add_new_form', [$this, 'admin_subpage_callback'] );
+		add_submenu_page( 'dynamic_contact_form', 'Edit Form', 'Edit Form','edit_posts', 'edit_form', [$this, 'admin_edit_subpage_callback'] );
 		add_submenu_page( 'dynamic_contact_form', 'Entries', 'Entries','manage_options', 's_c_entries', [$this, 'admin_entry_subpage_callback'] );
 	}
 
@@ -146,6 +147,11 @@ class Dash_Datamanage_Admin {
 	function admin_entry_subpage_callback()
 	{
 		require_once plugin_dir_path(__FILE__) . 'plugin_templates/all-entries.php';
+	}
+
+	function admin_edit_subpage_callback(){
+		// include_once('admin/plugin_templates/edit-form.php');
+        require_once plugin_dir_path(__FILE__) . 'plugin_templates/edit-form.php';
 	}
 
 	//----------- generate unique id --- //
@@ -280,6 +286,7 @@ class Dash_Datamanage_Admin {
 		if (!wp_verify_nonce($nonce, 'add-form-nonce')) {
             die('Security check failed.');
         }
+		$form_type = $_POST['form_type'];
 		$form_name = $_POST['form_name'];
 		$form_element = stripslashes($_POST['form_element']);
 		$form_html_ele = $_POST['froala_editor'];
@@ -409,6 +416,7 @@ class Dash_Datamanage_Admin {
 
 		// Save field names and values as post meta
 		update_post_meta($post_id, 'c_s_form_fields', $field_names);
+		update_post_meta($post_id, 'c_s_form_element_type', $form_type);
 
 		$shortcode = "[simple_custom_form id='{$post_id}' name='{$form_name}']";
 
@@ -500,7 +508,7 @@ function generate_form_shortcode($atts) {
 			$value = isset($field['value']) ? esc_attr($field['value']) : '';
 			$label = $field['label'];
 			
-			if ($type === 'text' || $type === 'email' || $type === 'number' || $type === 'tel') {
+			if ($type === 'text' || $type === 'email' || $type === 'number' || $type === 'tel' || $type === 'file') {
 				// Input fields
 				$form_html .= "<div class='form-group'>
 					<label for='{$name}'>". ucfirst($label) ."</label>

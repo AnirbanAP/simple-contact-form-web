@@ -4,46 +4,45 @@ jQuery(document).ready(function(err, data) {
     jQuery(document).on('submit', '.dynamic-form-html form', function(e){
         e.preventDefault();
         var form = jQuery(this);
-        var postID = form.find("input[name='post_id']").val();
-        var formData = {};
+        console.log(form);
+        var formData = new FormData(form[0]); 
+        var postID = jQuery("input[name='post_id']").val();
 
-        form.find("input, textarea, select").each(function (e, type) {
-            
-            const name = jQuery(this).attr("name");
-            const value = jQuery(this).val();
-            if (name) {
-                formData[name] = value;
-            }
-        });
+        formData.append('action', 'frontend_form_submission');
+        formData.append('post_id', postID);
+        formData.append('nonce', frontend_ajax.nonce);
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
         
-
-
         jQuery.ajax({
             url: frontend_ajax.ajaxurl,
             type: 'POST',
             dataType: 'json',
-            data: {
-                action: 'frontend_form_submission_function',
-                post_id: postID,
-                form_data: formData,
-                nonce:     frontend_ajax.nonce
-            },
+            data: formData,
+            processData: false,
+            contentType: false,
             beforeSend: function () {
-                form.find("button").prop("disabled", true).text("Submitting...");
+                // form.find("button").prop("disabled", true).text("Submitting...");
+                form.find("button").text("Submitting...");
             },
-            success: function (response) {
-                if (response.success) {
-                    alert(response.data.message);
-                    form[0].reset();
-                } else {
-                    alert(response.data.message || "An error occurred.");
-                }
+            success: function (res) {
+                console.log(res);
+                
+                // if (response.success) {
+                //     alert(response.data.message);
+                //     form[0].reset();
+                // } else {
+                //     alert(response.data.message || "An error occurred.");
+                // }
             },
             error: function () {
                 alert("An error occurred while submitting the form.");
             },
             complete: function () {
-                form.find("button.contact_form").prop("disabled", false).text("Submit");
+                // form.find("button.contact_form").prop("disabled", false).text("Submit");
             },
         });
     })

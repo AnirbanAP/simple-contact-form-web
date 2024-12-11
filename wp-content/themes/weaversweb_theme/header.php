@@ -24,5 +24,5 @@
     </nav>
     
 
-    <?php echo do_shortcode("[simple_custom_form id='18' name='Contact form html test 11']"); ?>
+    <?php echo do_shortcode("[simple_custom_form id='21' name='New Html Form 2']	"); ?>
 </header>
